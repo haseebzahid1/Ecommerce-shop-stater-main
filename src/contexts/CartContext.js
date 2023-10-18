@@ -6,7 +6,14 @@ export const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [itemAmount, setItemAmount] = useState(0)
+  const [total, setTotal] = useState(0)
   // 
+  useEffect(() => {
+    const total = cart.reduce((accumulator, currentItem) => {
+      return accumulator + currentItem.price * currentItem.amount ;
+    }, 0);
+    setTotal(total)
+  })
   // update item amount
   useEffect(() => {
     if (cart) {
@@ -83,7 +90,8 @@ const CartProvider = ({ children }) => {
         clearCart,
         increaseAmount,
         decreaseAmount,
-        itemAmount
+        itemAmount,
+        total
       }}
     >
       {children}
